@@ -8,7 +8,9 @@ predict what the second leg of an imported transaction should be.
 The package name in pypi is ```hoostus-beangulp-hooks``` so
 install it with pypi or add to pyproject.toml with that name.
 
-```pip install hoostus-beangulp-hooks```
+```
+pip install hoostus-beangulp-hooks
+```
 
 or
 ```
