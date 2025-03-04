@@ -14,7 +14,8 @@ or
 ```
 dependencies = [
     "hoostus-beangulp-hooks"
-]```
+]
+```
 
 ## The easiest way.
 
