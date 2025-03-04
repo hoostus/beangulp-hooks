@@ -7,6 +7,8 @@ from .pipelines import get_pipeline
 import logging
 logger = logging.getLogger(__name__)
 
+default_weights = {'payee': 0.8, 'narration': 0.5, 'date.day': 0.1}
+
 def get_open_accounts(entries: data.Directives):
     accounts = {}
     for entry in data.sorted(entries):
@@ -46,6 +48,9 @@ def update_postings(transaction: data.Transaction, accounts: list[str]) -> data.
         new_postings.append(posting)
 
     return transaction._replace(postings=new_postings)
+
+def simple_hook(extracted_entries_list, ledger_entries: data.Directives):
+    return hook(default_weights, [], extracted_entries_list, ledger_entries
 
 def hook(weights, denied_accounts, extracted_entries_list, ledger_entries: data.Directives):
     """
