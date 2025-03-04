@@ -5,6 +5,17 @@ predict what the second leg of an imported transaction should be.
 
 # How to use it with beangulp.
 
+The package name in pypi is ```hoostus-beangulp-hooks``` so
+install it with pypi or add to pyproject.toml with that name.
+
+```pip install hoostus-beangulp-hooks```
+
+or
+```
+dependencies = [
+    "hoostus-beangulp-hooks"
+]```
+
 ## The easiest way.
 
 1. Import it: ```from hoostus.beangulp.hooks import predict_posting```
