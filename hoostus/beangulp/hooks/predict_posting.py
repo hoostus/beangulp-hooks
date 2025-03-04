@@ -50,7 +50,7 @@ def update_postings(transaction: data.Transaction, accounts: list[str]) -> data.
     return transaction._replace(postings=new_postings)
 
 def simple_hook(extracted_entries_list, ledger_entries: data.Directives):
-    return hook(default_weights, [], extracted_entries_list, ledger_entries
+    return hook(default_weights, [], extracted_entries_list, ledger_entries)
 
 def hook(weights, denied_accounts, extracted_entries_list, ledger_entries: data.Directives):
     """
