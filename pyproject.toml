@@ -6,7 +6,13 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "beancount>=3.1.0",
-    "beangulp>=0.2.0",
     "numpy>=2.2.3",
     "scikit-learn>=1.6.1",
 ]
+
+# https://github.com/astral-sh/uv/issues/9513
+# setuptools is including a license but setting metadata
+# to 2.2 instead of 2.4 so it gets rejected by pypi
+[tool.setuptools]
+license-files = []
+
