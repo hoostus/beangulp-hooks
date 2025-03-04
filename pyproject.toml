@@ -1,6 +1,6 @@
 [project]
-name = "beangulp-hooks"
-version = "0.1.0"
+name = "hoostus-beangulp-hooks"
+version = "1.0.0"
 description = "Hooks for the beangulp importer."
 readme = "README.md"
 requires-python = ">=3.12"
