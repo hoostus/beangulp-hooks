@@ -1,5 +1,9 @@
 # hoostus-beangulp-hooks
 
+This is a hook for https://github.com/beancount/beangulp/,
+an importer framework for https://github.com/beancount/beancount,
+a Plain Text Accounting system.
+
 This uses machine learning, trained on your previous postings, to
 predict what the second posting of an imported transaction should be.
 
