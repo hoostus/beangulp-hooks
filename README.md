@@ -1,7 +1,7 @@
 # hoostus-beangulp-hooks
 
-This is a hook for https://github.com/beancount/beangulp/,
-an importer framework for https://github.com/beancount/beancount,
+This is a hook for [beangulp](https://github.com/beancount/beangulp/),
+an importer framework for [beancount](https://github.com/beancount/beancount),
 a Plain Text Accounting system.
 
 This uses machine learning, trained on your previous postings, to
