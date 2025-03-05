@@ -79,7 +79,7 @@ def hook(weights, denied_accounts, extracted_entries_list, ledger_entries: data.
     result = []
     for import_file, imported_entries, import_account, importer in extracted_entries_list:
         imported_txns = list(data.filter_txns(imported_entries))
-        if len(imported_txns == 0):
+        if len(imported_txns) == 0:
             # There are no transactions for us to predict
             # (only other entries in the imported data)
             result.append((import_file, imported_entries, import_account, importer))
