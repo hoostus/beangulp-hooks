@@ -58,6 +58,9 @@ if __name__ == '__main__':
     ingest()
 ```
 
+If you want to reuse the default weights (e.g. to only provide a denied_list)
+it is at ```predict_posting.default_weights```.
+
 # Implementation Notes
 
 The training is done on a per-account basis. Only transactions from the impoted_account
