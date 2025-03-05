@@ -1,7 +1,28 @@
 # hoostus-beangulp-hooks
 
 This uses machine learning, trained on your previous postings, to
-predict what the second leg of an imported transaction should be.
+predict what the second posting of an imported transaction should be.
+
+That is, the importer will generate something like
+
+```
+2025-03-01 * "Cookie Store"
+  Assets:AUS:NAB:PersonalAccount -117 AUD
+```
+
+Which is missing the second posting -- the Expense account the spending
+went towards. You can enter that second posting manually or use
+this hook which will look at your previous transactions to the
+"Cookie Store" payee and predict that it should be attributed to
+the ```Expenses:Eating``` and will modify the resulting import so
+that beangulp outputs
+
+```
+2025-03-01 * "Cookie Store"
+  Assets:AUS:NAB:PersonalAccount -117 AUD
+  Expenses:Eating
+```
+
 
 # How to use it with beangulp.
 
@@ -40,7 +61,7 @@ if __name__ == '__main__':
 Use ```predict_posting.hook``` directly and pass in a map of weights
 and a list of denied accounts -- accounts you don't want to use for
 training the machine learning model. Note that beangulp expects hooks to take
-2 parameters but ```predict_posting.hook``` takes 4 paramters. This
+2 parameters but ```predict_posting.hook``` takes 4 parameters. This
 means you will need to use functools.partial (or similar) to wrap it.
 
 In the ```importer.py``` you use with beangulp this might look something like:
@@ -50,7 +71,7 @@ import functools
 if __name__ == '__main__':
     importers = [ ... ]
     
-    my_weights = {'payee': 0.5, 'narration': 0.9, 'date.day': 0.2}
+    my_weights = {'meta.category': 0.8, 'payee': 0.5}
     my_denied_accounts = ['Expenses:Donuts']
     my_hook = functools.partial(predict_posting.hook, my_weights, my_denied_accounts)
     hooks = [my_hook]
@@ -59,11 +80,23 @@ if __name__ == '__main__':
 ```
 
 If you want to reuse the default weights (e.g. to only provide a denied_list)
-it is at ```predict_posting.default_weights```.
+it is at ```predict_posting.default_weights```. Like so
+```
+from hoostus.beangulp.hooks import predict_posting
+import functools
+if __name__ == '__main__':
+    importers = [ ... ]
+    
+    my_denied_accounts = ['Expenses:Donuts']
+    my_hook = functools.partial(predict_posting.hook, predict_posting.default_weights, my_denied_accounts)
+    hooks = [my_hook]
+    ingest = beangulp.Ingest(importers, hooks)
+    ingest()
+```
 
 # Implementation Notes
 
-The training is done on a per-account basis. Only transactions from the impoted_account
+The training is done on a per-account basis. Only transactions from the imported_account
 are considered.
 
 Transactions involving closed accounts are removed from the training data.
