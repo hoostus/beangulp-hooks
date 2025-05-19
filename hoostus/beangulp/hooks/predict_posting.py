@@ -95,21 +95,25 @@ def hook(weights, denied_accounts, extracted_entries_list, ledger_entries: data.
         # entries list. All the single legs confuse/break the predictor.
         training = list(filter(lambda x: len(x.postings) > 1, training))
 
-        targets = [
-            " ".join(sorted(posting.account for posting in txn.postings))
-            for txn in training
-        ]
-        pipeline.fit(training, targets)
-        predictions = pipeline.predict(imported_txns)
+        if len(training) > 0:
+            targets = [
+                " ".join(sorted(posting.account for posting in txn.postings))
+                for txn in training
+            ]
+            pipeline.fit(training, targets)
+            predictions = pipeline.predict(imported_txns)
 
-        entries = [
-            update_postings(entry, prediction.split(" "))
-            for entry, prediction in zip(imported_entries, predictions)
-        ]
-        non_txns = [e for e in imported_entries if e not in imported_txns]
-        entries.extend(non_txns)
+            entries = [
+                update_postings(entry, prediction.split(" "))
+                for entry, prediction in zip(imported_entries, predictions)
+            ]
+            non_txns = [e for e in imported_entries if e not in imported_txns]
+            entries.extend(non_txns)
 
-        result.append((import_file, entries, import_account, importer))
-        
+            result.append((import_file, entries, import_account, importer))
+        else:
+            # No training to be done so return the data unchanged.
+            result.append((import_file, imported_entries, import_account, importer))
+            
     return result
 
